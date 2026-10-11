@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#30070e">
+<title>A Special Letter — Just For You</title>
+<style>
+:root{--wine:#3a0710;--red:#a70e2d;--pink:#ffdbe4;--gold:#e9bd67;--cream:#fff4e8}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--cream);font-family:Georgia,'Times New Roman',serif;background:radial-gradient(ellipse at top,#681020 0,#26050b 48%,#100207 100%);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.14;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:31px 31px}
+main{width:min(900px,100%);margin:auto;padding:28px 18px 60px;text-align:center;position:relative}
+.eyebrow{font:600 11px/1.5 Arial,sans-serif;letter-spacing:4px;text-transform:uppercase;color:#f4c9ce;margin-top:14px}
+h1{font-size:clamp(32px,7vw,58px);font-weight:400;line-height:1.02;margin:12px 0 4px}
+.subtitle{font-style:italic;font-size:clamp(19px,4vw,26px);color:#e9bdc5;margin:0 0 25px}
+.flowers{font-size:26px;letter-spacing:8px;margin-bottom:12px}
+.scene{min-height:330px;display:grid;place-items:center;perspective:1000px;position:relative}
+.envelope{position:relative;width:min(370px,88vw);height:225px;cursor:pointer;filter:drop-shadow(0 18px 25px #0008);transition:transform .3s}
+.envelope:hover{transform:translateY(-5px)}
+.env-back{position:absolute;inset:0;background:#740b23;border:1px solid #d18b72;border-radius:4px}
+.env-front{position:absolute;inset:0;background:linear-gradient(145deg,#a70e2d,#65091d);clip-path:polygon(0 0,50% 58%,100% 0,100% 100%,0 100%);border-radius:4px}
+.env-flap{position:absolute;inset:0 0 auto;height:68%;background:linear-gradient(160deg,#c31a3c,#870b26);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .9s;z-index:3;filter:drop-shadow(0 5px 4px #300)}
+.seal{position:absolute;z-index:4;left:50%;top:47%;transform:translate(-50%,-50%);width:65px;height:65px;border-radius:50%;display:grid;place-items:center;color:#7d4518;font-size:32px;background:radial-gradient(circle,#ffe8a0 0,#d99c36 64%,#9a5a1e 70%,#f2ce78 76%);box-shadow:0 0 0 2px #f4d88d88}
+.envelope.open .env-flap{transform:rotateX(180deg);z-index:1}
+.envelope.open .seal{opacity:0;transition:opacity .2s}
+.tap{font:13px Arial,sans-serif;color:#f9dbe1;border:1px solid #f2c9d2;border-radius:99px;padding:9px 18px;margin-top:0;display:inline-block}
+.letter{display:none;background:linear-gradient(150deg,#fff4e8,#ffe1e5);color:#53202a;text-align:left;border-radius:14px;padding:clamp(22px,5vw,40px);width:min(650px,100%);margin:0 auto 28px;box-shadow:0 16px 50px #0008;animation:rise .8s ease both}
+.letter.show{display:block}
+.letter h2{text-align:center;font-size:30px;font-weight:400;margin:0 0 18px}
+.letter p{font-size:17px;line-height:1.8;white-space:pre-line}
+.signature{text-align:right;font-style:italic;font-size:23px;margin-top:26px}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}
+.photo{aspect-ratio:3/4;border:2px solid #e9bd67;border-radius:9px;overflow:hidden;background:#6b2433;display:grid;place-items:center;color:#f7dbe1;font:12px Arial,sans-serif;position:relative}
+.photo img{width:100%;height:100%;object-fit:cover;display:none}
+.photo span{padding:10px}
+.photo input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.photo.has-image img{display:block}.photo.has-image span{display:none}
+.controls{background:#ffffff0b;border:1px solid #ffffff24;border-radius:14px;padding:20px;margin:30px auto 0;max-width:650px;text-align:left}
+.controls h3{margin:0 0 12px;font-size:18px;font-weight:400}
+label{display:block;font:12px Arial,sans-serif;color:#f1cbd1;margin:12px 0 6px}
+input[type=text],textarea{width:100%;border:1px solid #b97583;background:#fff8f7;color:#40121b;border-radius:8px;padding:11px;font:14px Arial,sans-serif}
+textarea{min-height:100px;resize:vertical}
+button{border:0;border-radius:999px;background:linear-gradient(100deg,#f6c9d5,#e9bd67);color:#45101a;padding:12px 19px;font-weight:700;cursor:pointer;margin-top:12px}
+.qrwrap{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:14px}
+#qrcode{background:#fff;padding:10px;border-radius:8px;min-width:130px;min-height:130px;display:grid;place-items:center}
+#qrcode img,#qrcode canvas{max-width:150px;height:auto!important}
+.small{font:12px/1.6 Arial,sans-serif;color:#e4bfc6}
+footer{font:11px Arial,sans-serif;letter-spacing:2px;color:#b88991;margin-top:38px}
+.heart{position:fixed;bottom:-30px;color:#f3a6b9;opacity:.6;animation:float 9s linear infinite;pointer-events:none}
+@keyframes float{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:500px){.scene{min-height:285px}.envelope{height:190px}.photos{gap:7px}.letter p{font-size:16px}}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">A little something from my heart</div>
+  <h1>A Special Letter</h1>
+  <p class="subtitle">Just For You ♡</p>
+  <div class="flowers">✿　🦋　✿</div>
+  <section class="scene" aria-label="Amplop surat">
+    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Buka amplop">
+      <div class="env-back"></div><div class="env-flap"></div><div class="env-front"></div>
+      <div class="seal">♡</div>
+    </div>
+  </section>
+  <div class="tap" id="tapText">Sentuh segel untuk membuka surat</div>
+
+  <article class="letter" id="letter">
+    <h2>Untuk seseorang yang spesial ♡</h2>
+    <p id="message">Hai, kamu.
+
+Aku mungkin nggak selalu pandai menyampaikan isi hati lewat kata-kata. Tapi aku ingin kamu tahu, kehadiranmu punya cara sederhana untuk membuat hari-hariku terasa lebih berarti.
+
+Terima kasih sudah menjadi bagian dari cerita ini. Semoga, di antara banyak hal yang berubah, kita tetap punya alasan untuk saling tersenyum dan saling mendukung.
+
+Kalau suatu hari kamu merasa lelah, ingat ya: kamu berharga, kamu pantas bahagia, dan kamu nggak harus menghadapi semuanya sendirian.
+
+Surat kecil ini mungkin sederhana, tapi dibuat dengan tulus. ♡</p>
+    <div class="photos">
+      <label class="photo"><img alt="Foto kenangan 1"><span>＋ Tambahkan foto 1</span><input type="file" accept="image/*" aria-label="Pilih foto kenangan 1"></label>
+      <label class="photo"><img alt="Foto kenangan 2"><span>＋ Tambahkan foto 2</span><input type="file" accept="image/*" aria-label="Pilih foto kenangan 2"></label>
+      <label class="photo"><img alt="Foto kenangan 3"><span>＋ Tambahkan foto 3</span><input type="file" accept="image/*" aria-label="Pilih foto kenangan 3"></label>
+    </div>
+    <div class="signature">Dengan tulus, <span id="signName">Aku ♡</span></div>
+  </article>
+
+  <section class="controls">
+    <h3>Personalisasi suratmu ✨</h3>
+    <p class="small">Isi pesan dan nama di bawah, lalu tekan “Terapkan”. Foto dapat dipilih langsung dari galeri HP.</p>
+    <label for="toName">Nama penerima (opsional)</label><input id="toName" type="text" placeholder="Misalnya: Sayang">
+    <label for="fromName">Nama pengirim</label><input id="fromName" type="text" placeholder="Namamu">
+    <label for="customMessage">Pesan romantis</label><textarea id="customMessage">Hai, kamu.
+
+Aku mungkin nggak selalu pandai menyampaikan isi hati lewat kata-kata. Tapi aku ingin kamu tahu, kehadiranmu punya cara sederhana untuk membuat hari-hariku terasa lebih berarti.
+
+Terima kasih sudah menjadi bagian dari cerita ini. Semoga, di antara banyak hal yang berubah, kita tetap punya alasan untuk saling tersenyum dan saling mendukung.
+
+Kalau suatu hari kamu merasa lelah, ingat ya: kamu berharga, kamu pantas bahagia, dan kamu nggak harus menghadapi semuanya sendirian.
+
+Surat kecil ini mungkin sederhana, tapi dibuat dengan tulus. ♡</textarea>
+    <button id="apply">Terapkan ke surat</button>
+    <hr style="border:0;border-top:1px solid #ffffff25;margin:22px 0">
+    <h3>QR Code menuju halaman ini</h3>
+    <p class="small">Setelah website diunggah ke internet (misalnya GitHub Pages), tempel URL publiknya di sini. QR yang dibuat akan menuju URL tersebut. QR tidak bisa membuka halaman lokal dari HP orang lain.</p>
+    <label for="targetUrl">URL halaman publik</label><input id="targetUrl" type="text" placeholder="https://namakamu.github.io/surat-spesial/">
+    <button id="makeQr">Buat QR Code</button>
+    <div class="qrwrap"><div id="qrcode"><span class="small" style="color:#54202a">QR akan muncul di sini</span></div><div class="small" style="flex:1">Scan QR dengan kamera HP untuk membuka surat. Pastikan URL sudah bisa diakses publik. Tombol unduh tersedia setelah QR dibuat.</div></div>
+    <button id="downloadQr" style="display:none">Unduh QR Code</button>
+  </section>
+  <footer>MADE WITH LOVE · A LITTLE MEMORY TO KEEP</footer>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const envelope=document.getElementById('envelope'), letter=document.getElementById('letter'), tapText=document.getElementById('tapText');
+function openLetter(){envelope.classList.add('open');letter.classList.add('show');tapText.textContent='Sebuah surat kecil, khusus untukmu ♡';setTimeout(()=>letter.scrollIntoView({behavior:'smooth',block:'start'}),250)}
+envelope.addEventListener('click',openLetter);envelope.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openLetter()}});
+document.getElementById('apply').addEventListener('click',()=>{
+ const recipient=document.getElementById('toName').value.trim();
+ document.querySelector('#letter h2').textContent=recipient?`Untuk ${recipient} ♡`:'Untuk seseorang yang spesial ♡';
+ document.getElementById('signName').textContent=(document.getElementById('fromName').value.trim()||'Aku')+' ♡';
+ document.getElementById('message').textContent=document.getElementById('customMessage').value;
+});
+document.querySelectorAll('.photo input').forEach(input=>input.addEventListener('change',()=>{
+ const file=input.files&&input.files[0];if(!file)return;
+ const img=input.parentElement.querySelector('img'), url=URL.createObjectURL(file);img.src=url;input.parentElement.classList.add('has-image');
+}));
+let qr;
+document.getElementById('makeQr').addEventListener('click',()=>{
+ const url=document.getElementById('targetUrl').value.trim(), holder=document.getElementById('qrcode');
+ if(!url){alert('Masukkan URL publik website terlebih dahulu.');return}
+ try{new URL(url)}catch(e){alert('Format URL belum benar. Contoh: https://namakamu.github.io/surat-spesial/');return}
+ if(!window.QRCode){alert('Pembuat QR memerlukan koneksi internet. Coba buka halaman ini saat online.');return}
+ holder.innerHTML='';qr=new QRCode(holder,{text:url,width:180,height:180,colorDark:'#30070e',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});
+ document.getElementById('downloadQr').style.display='inline-block';
+});
+document.getElementById('downloadQr').addEventListener('click',()=>{
+ const holder=document.getElementById('qrcode'),canvas=holder.querySelector('canvas'),img=holder.querySelector('img');
+ let data=canvas?canvas.toDataURL('image/png'):img?img.src:null;if(!data){alert('Buat QR terlebih dahulu.');return}
+ const a=document.createElement('a');a.href=data;a.download='qr-surat-spesial.png';a.click();
+});
+for(let i=0;i<9;i++){const h=document.createElement('div');h.className='heart';h.textContent=['♡','♥','✧'][i%3];h.style.left=(i*12+4)+'%';h.style.animationDelay=(i*1.1)+'s';h.style.fontSize=(16+i%3*8)+'px';document.body.appendChild(h)}
+</script>
+</body>
+</html>
